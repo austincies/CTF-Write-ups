@@ -1,12 +1,12 @@
-#Hack the box writeup: finding user.txt on Traverxec
+# Hack the box writeup: finding user.txt on Traverxec
 
-##Part 1: Port Discovery
+## Part 1: Port Discovery
 
 The first thing I did when attacking the box was to run a port scan on its IP address. I used zenmap, which is a gui version of nmap. After scanning all possible TCP ports, I found only two open ports: ssh and tcp. I decided to start with the nostromo web server
 
 **TODO: Add Photo**
 
-##Part 2: Nostromo research
+## Part 2: Nostromo research
 
 After doing a bit of research on Nostromo. I found a few Nostromo exploits, one was a DOS exploit and another was a remote command execution exploit. I chose the RCE exploit because shutting off the service would ruin the point of trying to break into it. The RCE is recent, being disclosed a month before this box was released. The RCE exploit is available on metasploit ([https://www.rapid7.com/db/modules/exploit/multi/http/nostromo\_code\_exec](https://www.rapid7.com/db/modules/exploit/multi/http/nostromo_code_exec)) so starting it up only required me to update the database on my kali machine.
 
@@ -16,7 +16,7 @@ After choosing the exploit and setting up the options, I run it and get a comman
 
 **TODO: Add Photo**
 
-##Part 3: Inside the system
+## Part 3: Inside the system
 
 The first thing I did was run a few commands to make sure everything worked fine, and luckily it did.
 
@@ -42,7 +42,7 @@ Also for some reason the backup-ssh key files weren&#39;t shown at first, not re
 
 **TODO: Add Photo**
 
-##Part 4: Cracking Hashes
+## Part 4: Cracking Hashes
 
 The first tool I tried to use was hashcat. Hashcat required me to identify which type of hash it was, after running hash identifier, I discovered it was md5(Unix).
 
@@ -56,7 +56,7 @@ Using the newly found password, I downloaded the ssh keys, ready to finally get 
 
 **TODO: Add Photo**
 
-##Part 5: Cracking Hashes 2: Electric Boogaloo
+## Part 5: Cracking Hashes 2: Electric Boogaloo
 
 … The ssh key has a password to it! After doing some research, I find the ssh2john.py script, which turns the ssh key into a hash that John the ripper can crack. Running john with the rockyou.txt file once again, the hash got successfully cracked!
 
